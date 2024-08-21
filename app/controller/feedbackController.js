@@ -5,6 +5,7 @@ import {
     deleteFeedbackMdl,
     getAllFeedbacksMdl
 } from '../models/feedbackModel.js';
+import { getFeedbacksByProductIdMdl } from '../models/feedbackModel.js';
 
 // Controller to create a new feedback entry
 export const createFeedbackCtrl = (req, res) => {
@@ -65,6 +66,18 @@ export const getAllFeedbacksCtrl = (req, res) => {
     getAllFeedbacksMdl((err, results) => {
         if (err) {
             return res.status(500).json({ status: 500, message: 'Internal server error' });
+        }
+        res.status(200).json({ status: 200, data: results });
+    });
+};
+
+// Controller to get feedbacks by product ID
+export const getFeedbacksByProductIdCtrl = (req, res) => {
+    const { product_id } = req.params;
+
+    getFeedbacksByProductIdMdl(product_id, (err, results) => {
+        if (err) {
+            return res.status(500).json({ status: 500, message: 'Internal server error', error: err });
         }
         res.status(200).json({ status: 200, data: results });
     });

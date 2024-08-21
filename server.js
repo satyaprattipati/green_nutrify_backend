@@ -29,6 +29,8 @@ import {
     deleteFeedbackCtrl,
     getAllFeedbacksCtrl
 } from './app/controller/feedbackController.js';
+import { getFeedbacksByProductIdCtrl } from './app/controller/feedbackController.js';
+
 
 import {
     createOrderCtrl,
@@ -115,6 +117,8 @@ app.get('/green_nutrify/feedback/:id', getFeedbackByIdCtrl);
 app.put('/green_nutrify/feedback/:id', updateFeedbackCtrl);
 app.delete('/green_nutrify/feedback/:id', deleteFeedbackCtrl);
 app.get('/green_nutrify/feedback', getAllFeedbacksCtrl);
+app.get('/green_nutrify/feedbacks/product/:product_id', getFeedbacksByProductIdCtrl);
+
 
 // Order routes
 app.post('/green_nutrify/orders', createOrderCtrl);
