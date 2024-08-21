@@ -1,4 +1,4 @@
-import mysql from "mysql";
+import mysql from 'mysql';
 
 // Create a connection pool with a limit of 100 connections
 export const db = mysql.createPool({
@@ -8,6 +8,7 @@ export const db = mysql.createPool({
     password: 'H@cker22',
     database: 'green_nutrify'
 });
+
 
 // Function to execute a query, either using a callback or a Promise
 export const execQuery = function (pool, query, params = [], callback) {
@@ -52,4 +53,48 @@ export const execQuery = function (pool, query, params = [], callback) {
             });
         });
     }
+};
+
+// Begin a new transaction
+export const beginTransaction = (callback) => {
+    db.getConnection((err, connection) => {
+        if (err) {
+            console.error("Error obtaining database connection:", err);
+            callback(err, null);
+            return;
+        }
+        connection.beginTransaction((err) => {
+            if (err) {
+                console.error("Error starting transaction:", err);
+                connection.release();
+                callback(err, null);
+                return;
+            }
+            callback(null, connection);
+        });
+    });
+};
+
+// Commit a transaction
+export const commitTransaction = (connection, callback) => {
+    connection.commit((err) => {
+        if (err) {
+            console.error("Error committing transaction:", err);
+            connection.rollback(() => {
+                connection.release();
+                callback(err, null);
+            });
+        } else {
+            connection.release();
+            callback(null, { status: 200, message: "Transaction committed successfully" });
+        }
+    });
+};
+
+// Rollback a transaction
+export const rollbackTransaction = (connection, callback) => {
+    connection.rollback(() => {
+        connection.release();
+        callback({ status: 500, message: "Transaction rolled back" }, null);
+    });
 };

@@ -94,7 +94,8 @@ export const deleteProductMdl = function (id, callback) {
 
 // Model function to get all product entries
 export const getAllProductsMdl = function (callback) {
-    const query = `SELECT * FROM products`;
+    const query = `SELECT p.product_id, p.product_name, p.description, p.price, p.product_image, s.season_name FROM products p JOIN seasons s ON p.season_id = s.season_id;
+`;
 
     if (callback && typeof callback === "function") {
         execQuery(db, query, function (err, results) {
