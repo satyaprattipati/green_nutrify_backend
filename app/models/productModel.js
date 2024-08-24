@@ -53,9 +53,7 @@ export const updateProductMdl = function (id, updatedProductData, callback) {
     const {
         product_name,
         price,
-        description,
-        product_image,
-        season_id
+        description
     } = updatedProductData;
 
     const query = `
@@ -63,9 +61,7 @@ export const updateProductMdl = function (id, updatedProductData, callback) {
         SET 
             \`product_name\` = '${product_name}',
             \`price\` = '${price}',
-            \`description\` = '${description}',
-            \`product_image\` = '${product_image}',
-            \`season_id\` = '${season_id}'
+            \`description\` = '${description}'
         WHERE 
             \`product_id\` = '${id}'
     `;
